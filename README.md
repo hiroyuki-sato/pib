@@ -110,18 +110,18 @@ If you want to create binary RPM file, input the following commands.
 First, create libpib's source RPM from source code.
 
     $ cp -r pib/driver pib-0.4.5
-    $ tar czvf $(HOME)/rpmbuild/SOURCES/pib-0.4.5.tar.gz pib-0.4.5/
-    $ cp pib/driver/pib.conf $(HOME)/rpmbuild/SOURCES/
-    $ cp pib/driver/pib.files $(HOME)/rpmbuild/SOURCES/
+    $ tar czvf ${HOME}/rpmbuild/SOURCES/pib-0.4.6.tar.gz pib-0.4.6/
+    $ cp pib/driver/pib.conf ${HOME}/rpmbuild/SOURCES/
+    $ cp pib/driver/pib.files ${HOME}/rpmbuild/SOURCES/
     $ rpmbuild -bs pib/driver/pib.spec
 
 Next, build the binary RPM from the source RPM.
 
-    $ rpmbuild --rebuild $(HOME)/rpmbuild/SRPMS/pib-0.4.5-1.el6.src.rpm
+    $ rpmbuild --rebuild ${HOME}/rpmbuild/SRPMS/pib-0.4.5-1.el6.src.rpm
 
 Finally, install the built binary RPM.
 
-    # rpm -ihv $(HOME)/rpmbuild/RPMS/x86_64/kmod-pib-0.4.5-1.el6.x86_64.rpm
+    # rpm -ihv ${HOME}/rpmbuild/RPMS/x86_64/kmod-pib-0.4.5-1.el6.x86_64.rpm
 
 libpib
 ------
@@ -129,12 +129,12 @@ libpib
 The libpib userspace plug-in module will be installed from the binary RPM. 
 
     $ cp -r pib/libpib libpib-0.0.6
-    $ tar czvf $(HOME)/rpmbuild/SOURCES/libpib-0.0.6.tar.gz libpib-0.0.6/
+    $ tar czvf ${HOME}/rpmbuild/SOURCES/libpib-0.0.6.tar.gz libpib-0.0.6/
     $ rpmbuild -bs pib/libpib/libpib.spec
 
-    $ rpmbuild --rebuild $(HOME)/rpmbuild/SRPMS/libpib-0.0.6-1.el6.src.rpm
+    $ rpmbuild --rebuild ${HOME}/rpmbuild/SRPMS/libpib-0.0.6-1.el6.src.rpm
 
-    # rpm -ihv $(HOME)/rpmbuild/RPMS/x86_64/libpib-0.0.6-1.el6.x86_64.rpm
+    # rpm -ihv ${HOME}/rpmbuild/RPMS/x86_64/libpib-0.0.6-1.el6.x86_64.rpm
 
 pibnetd
 -------
@@ -149,12 +149,12 @@ If you want to compile the pibnetd daemon from source code, input the following 
 If you want to create binary RPM file, input the following commands.
 
     $ cp -r pib/pibnetd pibnetd-0.4.1
-    $ tar czvf $(HOME)/rpmbuild/SOURCES/pibnetd-0.4.1.tar.gz pibnetd-0.4.1/
+    $ tar czvf ${HOME}/rpmbuild/SOURCES/pibnetd-0.4.1.tar.gz pibnetd-0.4.1/
     $ rpmbuild -bs pib/pibnetd/pibnetd.spec
 
-    $ rpmbuild --rebuild $(HOME)/rpmbuild/SRPMS/pibnetd-0.4.1-1.el6.src.rpm
+    $ rpmbuild --rebuild ${HOME}/rpmbuild/SRPMS/pibnetd-0.4.1-1.el6.src.rpm
 
-    # rpm -ihv $(HOME)/rpmbuild/RPMS/x86_64/pibnetd-0.4.1-1.el6.x86_64.rpm
+    # rpm -ihv ${HOME}/rpmbuild/RPMS/x86_64/pibnetd-0.4.1-1.el6.x86_64.rpm
 
 Download
 --------
