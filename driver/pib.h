@@ -67,11 +67,13 @@
 #endif
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 19, 0) || \
-	(defined(RHEL_MAJOR) && ((RHEL_MAJOR == 6) && (RHEL_MINOR >= 7)))
+	(defined(RHEL_MAJOR) && ((RHEL_MAJOR == 6) && (RHEL_MINOR >= 7))) || \
+	(defined(RHEL_MAJOR) && ((RHEL_MAJOR == 7) && (RHEL_MINOR >= 2)))
 #define PIB_NO_NEED_TO_DEFINE_IB_UMEM_OFFSET
 #endif
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0)
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0) || \
+        (defined(RHEL_MAJOR) && ((RHEL_MAJOR == 7) && (RHEL_MINOR >= 2)))
 #define PIB_GET_PORT_IMMUTABLE_SUPPORT
 #endif
 
