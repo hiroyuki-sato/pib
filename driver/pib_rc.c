@@ -36,7 +36,7 @@ static enum ib_wc_status process_RDMA_READ_request(struct pib_dev *dev, struct p
 static enum ib_wc_status process_Atomic_request(struct pib_dev *dev, struct pib_qp *qp, struct pib_send_wqe *send_wqe, struct pib_packet_lrh *lrh, struct ib_grh *grh, struct pib_packet_bth *bth, void *buffer);
 
 static enum ib_wc_status process_LOCAL_INVALIDATE_request(struct pib_dev *dev, struct pib_qp *qp, struct pib_send_wqe *send_wqe);
-static enum ib_wc_status process_FAST_REGISTER_PMR_request(struct pib_dev *dev, struct pib_qp *qp, struct pib_send_wqe *send_wqe);
+//static enum ib_wc_status process_FAST_REGISTER_PMR_request(struct pib_dev *dev, struct pib_qp *qp, struct pib_send_wqe *send_wqe);
 
 /*
  *  Responder: Receiving Inbound Request Packets
@@ -476,9 +476,9 @@ pib_process_local_only_request(struct pib_dev *dev, struct pib_qp *qp, struct pi
 		status = process_LOCAL_INVALIDATE_request(dev, qp, send_wqe);
 		break;
 			
-	case IB_WR_FAST_REG_MR:
-		status = process_FAST_REGISTER_PMR_request(dev, qp, send_wqe);
-		break;
+//	case IB_WR_FAST_REG_MR:
+//		status = process_FAST_REGISTER_PMR_request(dev, qp, send_wqe);
+//		break;
 
 	default:
 		BUG();
@@ -508,6 +508,7 @@ process_LOCAL_INVALIDATE_request(struct pib_dev *dev, struct pib_qp *qp, struct 
 }
 
 
+#if 0
 static enum ib_wc_status
 process_FAST_REGISTER_PMR_request(struct pib_dev *dev, struct pib_qp *qp, struct pib_send_wqe *send_wqe)
 {
@@ -529,6 +530,7 @@ process_FAST_REGISTER_PMR_request(struct pib_dev *dev, struct pib_qp *qp, struct
 
 	return status;
 }
+#endif
 
 
 /******************************************************************************/

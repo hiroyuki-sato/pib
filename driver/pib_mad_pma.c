@@ -230,7 +230,7 @@ static int pma_get_class_port_info(struct ib_pma_mad *pmp, struct pib_node *node
 	/*
 	 * Expected response time is 4.096 usec. * 2^18 == 1.073741824 sec.
 	 */
-	info->resp_time_value = 18;
+	ib_set_cpi_resp_time(info,18);
 
 bail:
 	return reply(&pmp->mad_hdr);

@@ -146,7 +146,7 @@ flush_send_wqe(struct pib_qp *qp, struct pib_send_wqe *send_wqe)
 	switch (send_wqe->opcode)
 	{
 	case IB_WR_LOCAL_INV:
-	case IB_WR_FAST_REG_MR:
+//	case IB_WR_FAST_REG_MR:
 		break;
 	default:
 		break;
