@@ -138,8 +138,6 @@ static const char *str_uverbs_cmd[] = {
 	[PIB_USER_VERBS_CMD_MODIFY_PORT] = "modify_port",
 	[PIB_USER_VERBS_CMD_MODIFY_CQ]	= "modify_cq",
 	[PIB_USER_VERBS_CMD_ALLOC_FAST_REG_MR] = "alloc_fast_reg_mr",
-	[PIB_USER_VERBS_CMD_ALLOC_FAST_REG_PAGE_LIST] = "alloc_fast_reg_page_list",
-	[PIB_USER_VERBS_CMD_FREE_FAST_REG_PAGE_LIST] = "free_fast_reg_page_list",
 };
 
 

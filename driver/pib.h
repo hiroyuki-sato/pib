@@ -1081,11 +1081,9 @@ extern struct ib_mr *pib_reg_user_mr(struct ib_pd *pd, u64 start, u64 length,
 				     u64 virt_addr, int access_flags,
 				     struct ib_udata *udata);
 extern int pib_dereg_mr(struct ib_mr *mr);
-extern struct ib_mr *pib_alloc_fast_reg_mr(struct ib_pd *pd,
-					   int max_page_list_len);
-extern struct ib_fast_reg_page_list *pib_alloc_fast_reg_page_list(struct ib_device *ibdev,
-								  int page_list_len);
-extern void pib_free_fast_reg_page_list(struct ib_fast_reg_page_list *page_list);
+extern struct ib_mr *pib_alloc_mr(struct ib_pd *pd,
+                        	  enum ib_mr_type mr_type,
+                        	  u32 max_entries);
 extern enum ib_wc_status pib_util_mr_copy_data(struct pib_pd *pd, struct ib_sge *sge_array, int num_sge, void *buffer, u64 offset, u64 size, int access_flags, enum pib_mr_direction direction);
 extern enum ib_wc_status pib_util_mr_verify_rkey_validation(struct pib_pd *pd, u32 rkey, u64 address, u64 size, int access_flag);
 extern enum ib_wc_status pib_util_mr_copy_data_with_rkey(struct pib_pd *pd, u32 rkey, void *buffer, u64 address, u64 size, int access_flags, enum pib_mr_direction direction);

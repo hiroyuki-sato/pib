@@ -545,9 +545,7 @@ static struct pib_dev *pib_dev_add(struct device *dma_device, int dev_id)
 	dev->ib_dev.dereg_mr		= pib_dereg_mr;
 	/* dev->ib_dev.destroy_mr */
 	/* dev->ib_dev.create_mr */
-	dev->ib_dev.alloc_fast_reg_mr 	= pib_alloc_fast_reg_mr;
-	dev->ib_dev.alloc_fast_reg_page_list = pib_alloc_fast_reg_page_list;
-	dev->ib_dev.free_fast_reg_page_list  = pib_free_fast_reg_page_list;
+	dev->ib_dev.alloc_mr 		= pib_alloc_mr;
 	dev->ib_dev.attach_mcast	= pib_attach_mcast;
 	dev->ib_dev.detach_mcast	= pib_detach_mcast;
 	dev->ib_dev.process_mad		= pib_process_mad;

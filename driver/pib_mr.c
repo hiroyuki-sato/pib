@@ -241,8 +241,9 @@ pib_dereg_mr(struct ib_mr *ibmr)
 
 
 struct ib_mr *
-pib_alloc_fast_reg_mr(struct ib_pd *ibpd,
-		      int max_page_list_len)
+pib_alloc_alloc_mr(struct ib_pd *ibpd,
+			enum ib_mr_type mr_type,
+			u32 max_entries)
 {
 	struct pib_dev *dev;
 	struct pib_pd *pd;
@@ -251,10 +252,13 @@ pib_alloc_fast_reg_mr(struct ib_pd *ibpd,
 	if (!ibpd)
 		return ERR_PTR(-EINVAL);
 
+	if( mr_type != IB_MR_TYPE_MEM_REG)
+		return ERR_PTR(-EINVAL);
+
 	dev = to_pdev(ibpd->device);
 	pd = to_ppd(ibpd);
 
-	mr = create_mr(dev, pd, PIB_MR_FREE, true, max_page_list_len);
+	mr = create_mr(dev, pd, PIB_MR_FREE, true, max_entries);
 	if (IS_ERR(mr))
 		return (struct ib_mr *)mr;
 
@@ -462,7 +466,8 @@ pib_util_mr_atomic(struct pib_pd *pd, u32 rkey, u64 address, u64 swap, u64 compa
 	return IB_WC_SUCCESS;
 }
 
-#ifndef PIB_NO_NEED_TO_DEFINE_IB_UMEM_OFFSET
+//#ifndef PIB_NO_NEED_TO_DEFINE_IB_UMEM_OFFSET
+#if 0
 static inline int ib_umem_offset(struct ib_umem *umem)
 {
 	return umem->offset;
