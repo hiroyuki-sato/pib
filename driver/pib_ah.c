@@ -13,7 +13,7 @@
 
 
 struct ib_ah *
-pib_create_ah(struct ib_pd *ibpd, struct ib_ah_attr *ah_attr)
+pib_create_ah(struct ib_pd *ibpd, struct rdma_ah_attr *ah_attr)
 {
 	struct pib_dev *dev;
 	struct pib_ah *ah;
@@ -43,7 +43,7 @@ pib_create_ah(struct ib_pd *ibpd, struct ib_ah_attr *ah_attr)
 	ah->ah_num = ah_num;
 	spin_unlock_irqrestore(&dev->lock, flags);
 
-	ah->ib_ah_attr = *ah_attr;
+	ah->rdma_ah_attr = *ah_attr;
 
 	pib_trace_api(dev, IB_USER_VERBS_CMD_CREATE_AH, ah_num);
 
@@ -56,7 +56,7 @@ err_alloc_ah_num:
 }
 
 
-int pib_modify_ah(struct ib_ah *ibah, struct ib_ah_attr *ah_attr)
+int pib_modify_ah(struct ib_ah *ibah, struct rdma_ah_attr *ah_attr)
 {
 	struct pib_dev *dev;
 	struct pib_ah *ah;
@@ -69,13 +69,13 @@ int pib_modify_ah(struct ib_ah *ibah, struct ib_ah_attr *ah_attr)
 
 	pib_trace_api(dev, IB_USER_VERBS_CMD_MODIFY_AH, ah->ah_num);
 
-	ah->ib_ah_attr = *ah_attr;
+	ah->rdma_ah_attr = *ah_attr;
 
 	return 0;
 }
 
 
-int pib_query_ah(struct ib_ah *ibah, struct ib_ah_attr *ah_attr)
+int pib_query_ah(struct ib_ah *ibah, struct rdma_ah_attr *ah_attr)
 {
 	struct pib_dev *dev;
 	struct pib_ah *ah;
@@ -88,7 +88,7 @@ int pib_query_ah(struct ib_ah *ibah, struct ib_ah_attr *ah_attr)
 
 	pib_trace_api(dev, IB_USER_VERBS_CMD_QUERY_AH, ah->ah_num);
 
-	*ah_attr = ah->ib_ah_attr;
+	*ah_attr = ah->rdma_ah_attr;
 
 	return 0;
 }

@@ -633,7 +633,7 @@ struct pib_pd {
 
 struct pib_ah {
 	struct ib_ah            ib_ah;
-	struct ib_ah_attr       ib_ah_attr;
+	struct rdma_ah_attr       rdma_ah_attr;
 	struct list_head        list; /* link to dev->ah_head */
 
 	u32			ah_num;
@@ -1068,9 +1068,9 @@ extern void pib_stop_delayed_queue(struct pib_dev *dev);
 /*
  *  in pib_ah.c
  */
-extern struct ib_ah *pib_create_ah(struct ib_pd *pd, struct ib_ah_attr *ah_attr);
-extern int pib_query_ah(struct ib_ah *ibah, struct ib_ah_attr *ah_attr);
-extern int pib_modify_ah(struct ib_ah *ibah, struct ib_ah_attr *ah_attr);
+extern struct ib_ah *pib_create_ah(struct ib_pd *pd, struct rdma_ah_attr *ah_attr);
+extern int pib_query_ah(struct ib_ah *ibah, struct rdma_ah_attr *ah_attr);
+extern int pib_modify_ah(struct ib_ah *ibah, struct rdma_ah_attr *ah_attr);
 extern int pib_destroy_ah(struct ib_ah *ibah);
 
 /*

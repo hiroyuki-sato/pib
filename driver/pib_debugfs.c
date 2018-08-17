@@ -516,9 +516,9 @@ static int inspection_open(struct inode *inode, struct file *file)
 			records[i].base.obj_num       = ah->ah_num;
 			records[i].base.creation_time = ah->creation_time;
 			records[i].pd_num	      = to_ppd(ah->ib_ah.pd)->pd_num;
-			records[i].dlid		      = ah->ib_ah_attr.dlid;
-			records[i].ah_flags	      = ah->ib_ah_attr.ah_flags;
-			records[i].port_num	      = ah->ib_ah_attr.port_num;
+			records[i].dlid		      = ah->rdma_ah_attr.ib.dlid;
+			records[i].ah_flags	      = ah->rdma_ah_attr.ah_flags;
+			records[i].port_num	      = ah->rdma_ah_attr.port_num;
 			set_pid_and_handle(&records[i].base, ah->ib_ah.uobject);
 			i++;
 		}

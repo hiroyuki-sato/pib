@@ -109,7 +109,7 @@ int pib_process_rc_qp_request(struct pib_dev *dev, struct pib_qp *qp, struct pib
 	int with_inv = 0;
 	void *buffer;
 	u8 port_num;
-	struct ib_ah_attr ah_attr;
+	struct rdma_ah_attr ah_attr;
 	u16 slid, dlid;
 	struct pib_packet_lrh *lrh;
 	struct ib_grh         *grh;
@@ -145,7 +145,7 @@ int pib_process_rc_qp_request(struct pib_dev *dev, struct pib_qp *qp, struct pib
 	buffer = dev->thread.send_buffer;
 
 	slid = dev->ports[port_num - 1].ib_port_attr.lid;
-	dlid = ah_attr.dlid;
+	dlid = ah_attr.ib.dlid;
 
 	memset(buffer, 0, sizeof(*lrh) + sizeof(*grh) + sizeof(*bth));
 
@@ -1429,7 +1429,7 @@ int pib_generate_rc_qp_acknowledge(struct pib_dev *dev, struct pib_qp *qp)
 	ack = list_first_entry(&qp->responder.ack_head, struct pib_ack, list);
 
 	port_num = qp->ib_qp_attr.port_num;
-	dlid     = qp->ib_qp_attr.ah_attr.dlid;
+	dlid     = qp->ib_qp_attr.ah_attr.ib.dlid;
 
 	/* Other acknowledges */
 
@@ -1579,7 +1579,7 @@ pack_acknowledge_packet(struct pib_dev *dev, struct pib_qp *qp, int OpCode, u32 
 	int size;
 	void *buffer;
 	u8 port_num;
-	struct ib_ah_attr ah_attr;
+	struct rdma_ah_attr ah_attr;
 	struct pib_packet_lrh *lrh;
 	struct ib_grh         *grh;
 	struct pib_packet_bth *bth;
@@ -1612,7 +1612,7 @@ pack_acknowledge_packet(struct pib_dev *dev, struct pib_qp *qp, int OpCode, u32 
 	buffer += sizeof(*bth);
 
 	lrh->sl_rsv_lnh = (qp->ib_qp_attr.ah_attr.sl << 4) | lnh; /* Transport: IBA & Next Header: BTH */
-	lrh->dlid	= cpu_to_be16(qp->ib_qp_attr.ah_attr.dlid);
+	lrh->dlid	= cpu_to_be16(qp->ib_qp_attr.ah_attr.ib.dlid);
 	lrh->slid       = cpu_to_be16(dev->ports[port_num - 1].ib_port_attr.lid);
 
 	bth->OpCode     = OpCode;
@@ -2162,7 +2162,7 @@ process_cnp_notify_request(struct pib_dev *dev, struct pib_qp *qp, struct pib_se
 {
 	void *buffer;
 	u8 port_num;
-	struct ib_ah_attr ah_attr;
+	struct rdma_ah_attr ah_attr;
 	u16 slid, dlid;
 	struct pib_packet_lrh *lrh;
 	struct ib_grh         *grh;
@@ -2176,7 +2176,7 @@ process_cnp_notify_request(struct pib_dev *dev, struct pib_qp *qp, struct pib_se
 	buffer = dev->thread.send_buffer;
 
 	slid = dev->ports[port_num - 1].ib_port_attr.lid;
-	dlid = ah_attr.dlid;
+	dlid = ah_attr.ib.dlid;
 
 	memset(buffer, 0, sizeof(*lrh) + sizeof(*grh) + sizeof(*bth));
 

@@ -784,8 +784,8 @@ static bool modify_qp_is_ok(const struct pib_dev *dev, const struct pib_qp *qp, 
 	}
 
 	if (attr_mask & IB_QP_AV)
-		if (attr->ah_attr.dlid >= PIB_MCAST_LID_BASE) {
-			pib_debug("pib: wrong dlid=0x%04x in modify_qp_is_ok\n", attr->ah_attr.dlid);
+		if (attr->ah_attr.ib.dlid >= PIB_MCAST_LID_BASE) {
+			pib_debug("pib: wrong dlid=0x%04x in modify_qp_is_ok\n", attr->ah_attr.ib.dlid);
 			return false;
 		}
 

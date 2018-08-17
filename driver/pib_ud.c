@@ -90,7 +90,7 @@ int pib_process_ud_qp_request(struct pib_dev *dev, struct pib_qp *qp, struct pib
 	}
 
 	/* Check port_num */
-	port_num = ah->ib_ah_attr.port_num;
+	port_num = ah->rdma_ah_attr.port_num;
 	if (port_num < 1 || dev->ib_dev.phys_port_cnt < port_num) {
 		status = IB_WC_LOC_QP_OP_ERR;
 		goto completion_error;
@@ -103,7 +103,7 @@ int pib_process_ud_qp_request(struct pib_dev *dev, struct pib_qp *qp, struct pib
 		}
 
 	slid = dev->ports[port_num - 1].ib_port_attr.lid;
-	dlid = ah->ib_ah_attr.dlid;
+	dlid = ah->rdma_ah_attr.ib.dlid;
 
 	push_wc  = (qp->ib_qp_init_attr.sq_sig_type == IB_SIGNAL_ALL_WR)
 		|| (send_wqe->send_flags & IB_SEND_SIGNALED);
@@ -117,9 +117,9 @@ int pib_process_ud_qp_request(struct pib_dev *dev, struct pib_qp *qp, struct pib
 	/* write IB Packet Header (LRH, GRH, BTH, DETH) */
 	lrh = (struct pib_packet_lrh*)buffer; 
 	buffer += sizeof(*lrh);
-	if (ah->ib_ah_attr.ah_flags & IB_AH_GRH) {
+	if (ah->rdma_ah_attr.ah_flags & IB_AH_GRH) {
 		grh = (struct ib_grh*)buffer;
-		pib_fill_grh(dev, port_num, grh, &ah->ib_ah_attr.grh);
+		pib_fill_grh(dev, port_num, grh, &ah->rdma_ah_attr.grh);
 		buffer += sizeof(*grh);
 		lnh = 0x3;
 	} else {
@@ -133,8 +133,8 @@ int pib_process_ud_qp_request(struct pib_dev *dev, struct pib_qp *qp, struct pib
 
 	bth->OpCode = with_imm ? IB_OPCODE_UD_SEND_ONLY_WITH_IMMEDIATE : IB_OPCODE_UD_SEND_ONLY;
 
-	lrh->sl_rsv_lnh = (ah->ib_ah_attr.sl << 4) | lnh; /* Transport: IBA & Next Header: BTH */
-	lrh->dlid   = cpu_to_be16(ah->ib_ah_attr.dlid);
+	lrh->sl_rsv_lnh = (ah->rdma_ah_attr.sl << 4) | lnh; /* Transport: IBA & Next Header: BTH */
+	lrh->dlid   = cpu_to_be16(ah->rdma_ah_attr.ib.dlid);
 	lrh->slid   = cpu_to_be16(slid);
 
 	bth->pkey   = dev->ports[port_num - 1].pkey_table[send_wqe->wr.ud.pkey_index];
