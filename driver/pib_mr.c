@@ -273,6 +273,7 @@ pib_alloc_alloc_mr(struct ib_pd *ibpd,
 }
 
 
+#if 0
 struct ib_fast_reg_page_list *
 pib_alloc_fast_reg_page_list(struct ib_device *ibdev,
 			     int page_list_len)
@@ -325,6 +326,7 @@ pib_free_fast_reg_page_list(struct ib_fast_reg_page_list *page_list)
 	kfree(page_list->page_list);
 	kfree(page_list);
 }
+#endif
 
 
 enum ib_wc_status
@@ -512,12 +514,12 @@ mr_copy_data(struct pib_mr *mr, void *buffer, u64 offset, u64 size, u64 swap, u6
 		if (!vaddr)
 			return -EINVAL;
 
-		if ((addr <= offset) && (offset < addr + umem->page_size)) {
+		if ((addr <= offset) && (offset < addr + BIT(umem->page_shift))) {
 			u64 range;
 			void *target_vaddr;
 
-			range = min_t(u64, (addr + umem->page_size - offset), size);
-			target_vaddr = vaddr + (offset & (umem->page_size - 1));
+			range = min_t(u64, (addr + BIT(umem->page_shift) - offset), size);
+			target_vaddr = vaddr + (offset & (BIT(umem->page_shift) - 1));
 
 			if (mr_copy_data_sub(buffer, target_vaddr, range, swap, compare, direction))
 				return 0;
@@ -530,7 +532,7 @@ mr_copy_data(struct pib_mr *mr, void *buffer, u64 offset, u64 size, u64 swap, u6
 		if (size == 0)
 			return 0;
 
-		addr  += umem->page_size;
+		addr  += BIT(umem->page_shift);
 	}
 #else
 	list_for_each_entry(chunk, &umem->chunk_list, list) {
@@ -669,6 +671,7 @@ pib_util_mr_invalidate(struct pib_pd *pd, u32 rkey)
 	return IB_WC_SUCCESS;
 }
 
+#if 0
 enum ib_wc_status
 pib_util_mr_fast_reg_pmr(struct pib_pd *pd, u32 rkey, u64 iova_start, struct ib_fast_reg_page_list *page_list, unsigned int page_shift, unsigned int page_list_len, u32 length, int access_flags)
 {
@@ -722,3 +725,4 @@ pib_util_mr_fast_reg_pmr(struct pib_pd *pd, u32 rkey, u64 iova_start, struct ib_
 
 	return IB_WC_SUCCESS;	
 }
+#endif

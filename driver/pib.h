@@ -1089,7 +1089,7 @@ extern enum ib_wc_status pib_util_mr_verify_rkey_validation(struct pib_pd *pd, u
 extern enum ib_wc_status pib_util_mr_copy_data_with_rkey(struct pib_pd *pd, u32 rkey, void *buffer, u64 address, u64 size, int access_flags, enum pib_mr_direction direction);
 extern enum ib_wc_status pib_util_mr_atomic(struct pib_pd *pd, u32 rkey, u64 address, u64 swap, u64 compare, u64 *result, enum pib_mr_direction direction);
 extern enum ib_wc_status pib_util_mr_invalidate(struct pib_pd *pd, u32 rkey);
-extern enum ib_wc_status pib_util_mr_fast_reg_pmr(struct pib_pd *pd, u32 rkey, u64 iova_start, struct ib_fast_reg_page_list *page_list, unsigned int page_shift, unsigned int page_list_len, u32 length, int access_flags);
+//extern enum ib_wc_status pib_util_mr_fast_reg_pmr(struct pib_pd *pd, u32 rkey, u64 iova_start, struct ib_fast_reg_page_list *page_list, unsigned int page_shift, unsigned int page_list_len, u32 length, int access_flags);
 
 /*
  *  in pib_cq.c
