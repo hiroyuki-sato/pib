@@ -1032,21 +1032,21 @@ next_wr:
 		switch (ibwr->opcode) {
 		case IB_WR_RDMA_WRITE:
 		case IB_WR_RDMA_WRITE_WITH_IMM:
-			send_wqe->wr.rdma.remote_addr   = ibwr->wr.rdma.remote_addr;
-			send_wqe->wr.rdma.rkey          = ibwr->wr.rdma.rkey;
+			send_wqe->wr.rdma.remote_addr   = rdma_wr(ibwr)->remote_addr;
+			send_wqe->wr.rdma.rkey          = rdma_wr(ibwr)->rkey;
 			break;
 
 		case IB_WR_RDMA_READ:
-			send_wqe->wr.rdma.remote_addr   = ibwr->wr.rdma.remote_addr;
-			send_wqe->wr.rdma.rkey          = ibwr->wr.rdma.rkey;
+			send_wqe->wr.rdma.remote_addr   = rdma_wr(ibwr)->remote_addr;
+			send_wqe->wr.rdma.rkey          = rdma_wr(ibwr)->rkey;
 			break;
 
 		case IB_WR_ATOMIC_CMP_AND_SWP:
 		case IB_WR_ATOMIC_FETCH_AND_ADD:
-			send_wqe->wr.atomic.remote_addr = ibwr->wr.atomic.remote_addr;
-			send_wqe->wr.atomic.compare_add = ibwr->wr.atomic.compare_add;
-			send_wqe->wr.atomic.swap        = ibwr->wr.atomic.swap;
-			send_wqe->wr.atomic.rkey        = ibwr->wr.atomic.rkey;
+			send_wqe->wr.atomic.remote_addr = atomic_wr(ibwr)->remote_addr;
+			send_wqe->wr.atomic.compare_add = atomic_wr(ibwr)->compare_add;
+			send_wqe->wr.atomic.swap        = atomic_wr(ibwr)->swap;
+			send_wqe->wr.atomic.rkey        = atomic_wr(ibwr)->rkey;
 			break;
 
 		case IB_WR_SEND_WITH_INV:
@@ -1058,6 +1058,7 @@ next_wr:
 			send_wqe->ex.invalidate_rkey	= ibwr->ex.invalidate_rkey;
 			break;
 
+#if 0
 		case IB_WR_FAST_REG_MR:
 			send_wqe->local_only_request	= 1;
 			send_wqe->wr.fast_reg.iova_start= ibwr->wr.fast_reg.iova_start;
@@ -1068,6 +1069,7 @@ next_wr:
 			send_wqe->wr.fast_reg.access_flags = ibwr->wr.fast_reg.access_flags;
 			send_wqe->wr.fast_reg.rkey	= ibwr->wr.fast_reg.rkey;
 			break;
+#endif
 
 		default:
 			break;
@@ -1081,15 +1083,15 @@ next_wr:
 		case IB_WR_SEND:
 		case IB_WR_SEND_WITH_IMM:
 			if (!pib_get_behavior(PIB_BEHAVIOR_AH_PD_VIOLATOIN_COMP_ERR))
-				if (!ibwr->wr.ud.ah || qp->ib_qp.pd != ibwr->wr.ud.ah->pd) {
+				if (!ud_wr(ibwr)->ah || qp->ib_qp.pd != ud_wr(ibwr)->ah->pd){
 					ret = -EINVAL;
 					goto done;
 				}
-			send_wqe->wr.ud.ah		= ibwr->wr.ud.ah;
-			send_wqe->wr.ud.remote_qpn	= ibwr->wr.ud.remote_qpn;
-			send_wqe->wr.ud.remote_qkey	= ibwr->wr.ud.remote_qkey;
-			send_wqe->wr.ud.pkey_index	= ibwr->wr.ud.pkey_index;
-			send_wqe->wr.ud.port_num	= ibwr->wr.ud.port_num;
+			send_wqe->wr.ud.ah		= ud_wr(ibwr)->ah;
+			send_wqe->wr.ud.remote_qpn	= ud_wr(ibwr)->remote_qpn;
+			send_wqe->wr.ud.remote_qkey	= ud_wr(ibwr)->remote_qkey;
+			send_wqe->wr.ud.pkey_index	= ud_wr(ibwr)->pkey_index;
+			send_wqe->wr.ud.port_num	= ud_wr(ibwr)->port_num;
 			break;
 		default:
 			break;
